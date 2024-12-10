@@ -1,0 +1,105 @@
+<template>
+  <n-split>
+    <template #1>
+      <n-menu
+        v-model:value="activeKey"
+        mode="horizontal"
+        :options="menuOptions"
+        responsive
+      />
+    </template>
+    <template #2>
+      <div class="flex justify-end px-4" v-if="accountID">
+        <n-dropdown :options="dropdownOptions" @select="handleSelect">
+          <n-avatar round>{{ accountID }}</n-avatar>
+        </n-dropdown>
+      </div>
+    </template>
+  </n-split>
+</template>
+<script>
+import { defineComponent } from "vue";
+import { userStore } from "@/store/userStore";
+import { storeToRefs } from "pinia";
+import { useMessage } from "naive-ui";
+import { useRouter } from "vue-router";
+import { UserClearStatus } from "@/api/userAPI";
+export default defineComponent({
+  setup() {
+    const store = userStore();
+    const { accountID } = storeToRefs(store);
+    const { setAccountID } = store;
+    const message = useMessage();
+    const router = useRouter();
+    const menuOptions = [
+      {
+        label: () =>
+          h(
+            "a",
+            {
+              href: "/",
+              target: "_self",
+              rel: "noopenner noreferrer",
+            },
+            "首页"
+          ),
+      },
+      {
+        label: () =>
+          h(
+            "a",
+            {
+              href: "/dashboard",
+              target: "_self",
+              rel: "noopenner noreferrer",
+            },
+            "仪表盘"
+          ),
+      },
+      {
+        label: () =>
+          h(
+            "a",
+            {
+              href: "/test",
+              target: "_self",
+              rel: "noopenner noreferrer",
+            },
+            "测试页面"
+          ),
+      },
+    ];
+    const dropdownOptions = [
+      {
+        label: "用户资料",
+        key: "profile",
+      },
+      {
+        label: "退出登录",
+        key: "logout",
+      },
+    ];
+    const clearLoginStatus = () => {
+      setAccountID("");
+      UserClearStatus()
+    };
+    const handleSelect = (key) => {
+      switch (key) {
+        case "profile":
+          router.push({ name: "Profile" });
+        case "logout":
+          clearLoginStatus()
+          message.info("退出登录"); 
+          router.push({ name: "Login" });
+      }
+    };
+    return {
+      accountID,
+      menuOptions,
+      dropdownOptions,
+      handleSelect,
+    };
+  },
+});
+</script>
+<style lang="scss"></style>
