@@ -23,23 +23,23 @@ import { onMounted } from "vue";
 import { findProgramsByID } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const { accountID } = storeToRefs(userStore());
+    const { userInfo } = storeToRefs(userStore());
     const isLoading = ref(true);
     const cardList = ref([]);
     const getCardList = async id => {
       const data = await findProgramsByID(id);
+      console.log(data);
       cardList.value = data.data;
       isLoading.value = false;
       console.log(cardList.value);
     };
     onMounted(() => {
-      accountID.value !== ""
-        ? getCardList(accountID.value)
-        : useRouter().push({ name: "Login" });
+      console.log(userInfo.value);
+      console.log(Object.keys(userInfo.value));
+      getCardList(userInfo.value["account_id"]);
     });
     return {
       isLoading,

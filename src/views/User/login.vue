@@ -59,7 +59,7 @@ export default defineComponent({
       password: null,
     });
     const router = useRouter();
-    const { setAccountID } = userStore();
+    const { setUserInfo } = userStore();
     const rules = {
       account: [
         {
@@ -86,8 +86,8 @@ export default defineComponent({
         if (data.code === 0) {
           message.success("登录成功");
           // 使用pinia来存储返回的用户信息
-          console.log(data);
-          setAccountID(data.data["account_id"]);
+          console.log(data.data);
+          setUserInfo(data.data)
           router.push({ name: "Home" });
         } else {
           message.error(`登录失败，${data.msg}`);

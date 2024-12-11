@@ -42,14 +42,14 @@ import { storeToRefs } from "pinia";
 
 export default defineComponent({
   setup() {
-    const { accountID } = storeToRefs(userStore());
+    const { userInfo } = storeToRefs(userStore());
     const messsage = useMessage();
     const showModal = ref(false);
     const model = reactive({
       name: "",
       domain: "",
       secure: true,
-      account_id: accountID.value,
+      account_id: userInfo.value["account_id"],
     });
 
     const handleSubmit = async () => {

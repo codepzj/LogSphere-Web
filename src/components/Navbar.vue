@@ -9,9 +9,9 @@
       />
     </template>
     <template #2>
-      <div class="flex justify-end px-4" v-if="accountID">
+      <div class="flex justify-end px-4" v-if="Object.keys(userInfo).length">
         <n-dropdown :options="dropdownOptions" @select="handleSelect">
-          <n-avatar round>{{ accountID }}</n-avatar>
+          <n-avatar round>{{ userInfo.Nickname }}</n-avatar>
         </n-dropdown>
       </div>
     </template>
@@ -27,8 +27,8 @@ import { UserClearStatus } from "@/api/userAPI";
 export default defineComponent({
   setup() {
     const store = userStore();
-    const { accountID } = storeToRefs(store);
-    const { setAccountID } = store;
+    const { userInfo } = storeToRefs(store);
+    const { setUserInfo } = store;
     const message = useMessage();
     const router = useRouter();
     const menuOptions = [
@@ -80,7 +80,7 @@ export default defineComponent({
       },
     ];
     const clearLoginStatus = () => {
-      setAccountID("");
+      setUserInfo({});
       UserClearStatus();
     };
     const handleSelect = key => {
@@ -100,7 +100,8 @@ export default defineComponent({
       }
     };
     return {
-      accountID,
+      userInfo,
+      setUserInfo,
       menuOptions,
       dropdownOptions,
       handleSelect,

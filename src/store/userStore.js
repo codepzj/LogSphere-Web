@@ -3,14 +3,17 @@ import { defineStore } from "pinia";
 const userStore = defineStore(
   "useUserStore",
   () => {
-    const accountID = ref("");
-    const setAccountID = id => {
-      accountID.value = id;
-    };
+    const userInfo = ref({})
+    // 判断用户是否登录
+    const isLogin = computed(() => Object.keys(userInfo.value).length !== 0)
+    const setUserInfo = (info) => {
+      userInfo.value = info
+    }
 
     return {
-      accountID,
-      setAccountID,
+      userInfo,
+      isLogin,
+      setUserInfo
     };
   },
   {
