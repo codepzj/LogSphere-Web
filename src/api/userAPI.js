@@ -4,7 +4,7 @@ async function UserRegister({ account, password }) {
   const result = await request({
     method: "post",
     url: "/user/create",
-    data: { account, password }
+    data: { account, password },
   });
   return result.data;
 }
@@ -13,11 +13,10 @@ async function UserLogin(data) {
   const result = await request({
     method: "post",
     url: "/user/find",
-    data
+    data,
   });
   return result.data;
 }
-
 
 function UserClearStatus() {
   request({

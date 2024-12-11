@@ -1,5 +1,4 @@
 <template>
-  <Navbar></Navbar>
   <div class="flex justify-center" v-if="isLoading">
     <n-spin size="large" />
   </div>
@@ -24,7 +23,6 @@ import { onMounted } from "vue";
 import { findProgramsByID } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
-import Navbar from "@/components/Navbar.vue";
 import { useRouter } from "vue-router";
 
 export default {
@@ -32,7 +30,7 @@ export default {
     const { accountID } = storeToRefs(userStore());
     const isLoading = ref(true);
     const cardList = ref([]);
-    const getCardList = async (id) => {
+    const getCardList = async id => {
       const data = await findProgramsByID(id);
       cardList.value = data.data;
       isLoading.value = false;
@@ -46,7 +44,6 @@ export default {
     return {
       isLoading,
       cardList,
-      Navbar,
     };
   },
 };

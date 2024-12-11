@@ -1,5 +1,4 @@
 <template>
-  <Navbar></Navbar>
   <n-card title="创建项目" class="w-1/5">
     <div class="flex justify-center">
       <n-button @click="showModal = true">
@@ -39,37 +38,34 @@ import { defineComponent, reactive, ref } from "vue";
 import { createProgram } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
 import { useMessage } from "naive-ui";
-import Navbar from "@/components/Navbar.vue";
 import { storeToRefs } from "pinia";
 
 export default defineComponent({
-    setup() {
+  setup() {
+    const { accountID } = storeToRefs(userStore());
+    const messsage = useMessage();
+    const showModal = ref(false);
+    const model = reactive({
+      name: "",
+      domain: "",
+      secure: true,
+      account_id: accountID.value,
+    });
 
-        const { accountID } = storeToRefs(userStore())
-        const messsage = useMessage()
-        const showModal = ref(false)
-        const model = reactive({
-            name: "",
-            domain: "",
-            secure: true,
-            account_id: accountID.value
-        })
-
-        const handleSubmit = async () => {
-            const data = await createProgram(model)
-            if (data.code === 0) {
-                messsage.success("创建项目成功")
-                showModal.value = false
-            }else{
-                messsage.error("创建项目失败")
-            }
-        }
-        return {
-            Navbar,
-            showModal,
-            model,
-            handleSubmit,
-        };
-    }
+    const handleSubmit = async () => {
+      const data = await createProgram(model);
+      if (data.code === 0) {
+        messsage.success("创建项目成功");
+        showModal.value = false;
+      } else {
+        messsage.error("创建项目失败");
+      }
+    };
+    return {
+      showModal,
+      model,
+      handleSubmit,
+    };
+  },
 });
 </script>

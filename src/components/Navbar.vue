@@ -81,16 +81,22 @@ export default defineComponent({
     ];
     const clearLoginStatus = () => {
       setAccountID("");
-      UserClearStatus()
+      UserClearStatus();
     };
-    const handleSelect = (key) => {
+    const handleSelect = key => {
+      console.log(key);
+
       switch (key) {
         case "profile":
+          console.log("profile");
           router.push({ name: "Profile" });
+          break;
         case "logout":
-          clearLoginStatus()
-          message.info("退出登录"); 
+          console.log("logout");
+          clearLoginStatus();
+          message.info("退出登录");
           router.push({ name: "Login" });
+          break;
       }
     };
     return {

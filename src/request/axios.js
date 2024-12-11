@@ -13,7 +13,6 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   function (config) {
-
     return config;
   },
   function (error) {
@@ -31,9 +30,9 @@ request.interceptors.response.use(
   },
   function (error) {
     if (error.status === 401) {
-      message.error('登录状态已过期')
-      router.push("/login")
-      return
+      message.error("登录状态已过期");
+      router.push("/login");
+      return;
     }
     return Promise.reject(error);
   }

@@ -54,11 +54,6 @@
       </n-form>
     </div>
   </div>
-
-  <pre
-    >{{ JSON.stringify(model, null, 2) }}
-</pre
-  >
 </template>
 
 <script>
@@ -150,7 +145,7 @@ export default defineComponent({
       },
       handleValidateButtonClick(e) {
         e.preventDefault();
-        formRef.value?.validate((errors) => {
+        formRef.value?.validate(errors => {
           if (!errors) {
             Register();
           } else {
