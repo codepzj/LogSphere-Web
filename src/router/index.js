@@ -45,30 +45,26 @@ const router = createRouter({
   routes,
 });
 
-
-
 router.beforeEach((to, from, next) => {
-  const { isLogin } = userStore()
+  const { isLogin } = userStore();
 
-  const nextRoute = ['Login', 'Register'];
-
+  const nextRoute = ["Login", "Register"];
 
   if (nextRoute.indexOf(to.name) >= 0) {
-    next()
-    return
+    next();
+    return;
   }
 
   // 前往的不是登录注册页面
   if (!isLogin) {
     if (to.name === "Login") {
       // 避免跳转登录页循环重定向
-      next()
+      next();
     } else {
-      next({ name: "Login" })
+      next({ name: "Login" });
     }
   } else {
-    next()
+    next();
   }
-
-})
+});
 export default router;

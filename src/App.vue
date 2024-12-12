@@ -1,6 +1,6 @@
 <template>
   <n-message-provider>
-    <Navbar v-show='!($route.name in ["Login","Register"])'></Navbar>
+    <Navbar v-show="!($route.name in ['Login', 'Register'])"></Navbar>
     <router-view></router-view>
   </n-message-provider>
 </template>

@@ -87,7 +87,7 @@ export default defineComponent({
           message.success("登录成功");
           // 使用pinia来存储返回的用户信息
           console.log(data.data);
-          setUserInfo(data.data)
+          setUserInfo(data.data);
           router.push({ name: "Home" });
         } else {
           message.error(`登录失败，${data.msg}`);
