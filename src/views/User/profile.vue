@@ -1,134 +1,72 @@
 <template>
-  <div class="font-bold text-xl">用户编辑资料</div>
-  <n-form ref="formRef" :model="model" :rules="rules">
-    <n-form-item path="age" label="年龄">
-      <n-input v-model:value="model.age" @keydown.enter.prevent />
-    </n-form-item>
-    <n-form-item path="password" label="密码">
-      <n-input
-        v-model:value="model.password"
-        type="password"
-        @input="handlePasswordInput"
-        @keydown.enter.prevent
-      />
-    </n-form-item>
-    <n-form-item
-      ref="rPasswordFormItemRef"
-      first
-      path="reenteredPassword"
-      label="重复密码"
-    >
-      <n-input
-        v-model:value="model.reenteredPassword"
-        :disabled="!model.password"
-        type="password"
-        @keydown.enter.prevent
-      />
-    </n-form-item>
-    <n-row :gutter="[0, 24]">
-      <n-col :span="24">
-        <div style="display: flex; justify-content: flex-end">
-          <n-button
-            :disabled="model.age === null"
-            round
-            type="primary"
-            @click="handleValidateButtonClick"
-          >
-            验证
-          </n-button>
-        </div>
-      </n-col>
-    </n-row>
-  </n-form>
+  <div class="text-xl my-4">用户编辑资料</div>
+  <hr />
+  <div class="my-4">
+    <n-form :model="model" label-placement="left">
+      <n-form-item path="nickname" label="昵称" class="w-1/2">
+        <n-input v-model:value="model.nickname" />
+      </n-form-item>
+      <n-form-item path="role" label="头像">
+        <n-upload
+          list-type="image-card"
+          max="1"
+          action="http://127.0.0.1:8080/user/avatar-upload"
+          @finish="handleFinish"
+          >点击上传</n-upload
+        >
+      </n-form-item>
+      <n-form-item path="nickname" label="角色">
+        <n-select v-model:value="model.role" :options="options" />
+      </n-form-item>
+      <div class="flex justify-center">
+        <n-button class="w-20" @click="editProfile">更新</n-button>
+      </div>
+    </n-form>
+  </div>
 </template>
 
-<script>
+<script setup>
+import { userStore } from "@/store/userStore";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
 import { useMessage } from "naive-ui";
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  setup() {
-    const formRef = ref(null);
-    const rPasswordFormItemRef = ref(null);
-    const message = useMessage();
-    const modelRef = ref({
-      age: null,
-      password: null,
-      reenteredPassword: null,
-    });
-    function validatePasswordStartWith(rule, value) {
-      return (
-        !!modelRef.value.password &&
-        modelRef.value.password.startsWith(value) &&
-        modelRef.value.password.length >= value.length
-      );
-    }
-    function validatePasswordSame(rule, value) {
-      return value === modelRef.value.password;
-    }
-    const rules = {
-      age: [
-        {
-          required: true,
-          validator(rule, value) {
-            if (!value) {
-              return new Error("需要年龄");
-            } else if (!/^\d*$/.test(value)) {
-              return new Error("年龄应该为整数");
-            } else if (Number(value) < 18) {
-              return new Error("年龄应该超过十八岁");
-            }
-            return true;
-          },
-          trigger: ["input", "blur"],
-        },
-      ],
-      password: [
-        {
-          required: true,
-          message: "请输入密码",
-        },
-      ],
-      reenteredPassword: [
-        {
-          required: true,
-          message: "请再次输入密码",
-          trigger: ["input", "blur"],
-        },
-        {
-          validator: validatePasswordStartWith,
-          message: "两次密码输入不一致",
-          trigger: "input",
-        },
-        {
-          validator: validatePasswordSame,
-          message: "两次密码输入不一致",
-          trigger: ["blur", "password-input"],
-        },
-      ],
-    };
-    return {
-      formRef,
-      rPasswordFormItemRef,
-      model: modelRef,
-      rules,
-      handlePasswordInput() {
-        if (modelRef.value.reenteredPassword) {
-          rPasswordFormItemRef.value?.validate({ trigger: "password-input" });
-        }
-      },
-      handleValidateButtonClick(e) {
-        e.preventDefault();
-        formRef.value?.validate(errors => {
-          if (!errors) {
-            message.success("验证成功");
-          } else {
-            console.log(errors);
-            message.error("验证失败");
-          }
-        });
-      },
-    };
+const store = userStore();
+const { userInfo } = storeToRefs(store);
+const message = useMessage();
+const model = ref({
+  nickname: "",
+  avatar: "",
+  role: 0,
+});
+const options = [
+  {
+    label: "管理员",
+    value: 0,
   },
+  {
+    label: "普通用户",
+    value: 1,
+  },
+  {
+    label: "游客",
+    value: 2,
+  },
+];
+const editProfile = () => {
+  console.log(model.value);
+};
+const handleFinish = ({ event }) => {
+  const response = JSON.parse(event.target.response);
+  if (!response.code) {
+    const avatarPath = "uploads/user/" + response.data.filename;
+    store.setUserAvatar(avatarPath);
+    message.success(response.msg);
+  } else {
+    message.error(response.msg);
+  }
+};
+onMounted(() => {
+  const { nickname, role, avatar } = userInfo.value;
+  model.value = { nickname, role, avatar };
 });
 </script>

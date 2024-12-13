@@ -25,4 +25,16 @@ function UserClearStatus() {
   });
 }
 
-export { UserRegister, UserLogin, UserClearStatus };
+const uploadAvatar = async (avatar) => {
+  const result = await request({
+    method: "post",
+    url: "/user/avatar-upload",
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: avatar
+  })
+  return result.data
+}
+
+export { UserRegister, UserLogin, UserClearStatus, uploadAvatar };

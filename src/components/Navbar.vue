@@ -1,21 +1,30 @@
 <template>
-  <n-split>
-    <template #1>
+  <n-grid x-gap="12" cols="10" item-responsive responsive="screen" class="flex items-center">
+    <n-gi span="0 s:2">
+      <div class="flex items-center">
+        <img src="/vite.svg" alt="Logsphere" /><span class="text-l font-bold ml-1.5">Logsphere</span>
+      </div>
+    </n-gi>
+    <n-gi span="10 s:6">
       <n-menu
         v-model:value="activeKey"
         mode="horizontal"
         :options="menuOptions"
         responsive
-      />
-    </template>
-    <template #2>
+        default-size="0.8"
+    /></n-gi>
+    <n-gi span="0 s:2">
       <div class="flex justify-end px-4" v-if="Object.keys(userInfo).length">
         <n-dropdown :options="dropdownOptions" @select="handleSelect">
-          <n-avatar round>{{ userInfo.Nickname }}</n-avatar>
+          <div class="flex items-center">
+            <n-avatar round>{{ userInfo.avatar }}</n-avatar
+            >&nbsp;
+            <span>{{ userInfo.nickname }}</span>
+          </div>
         </n-dropdown>
       </div>
-    </template>
-  </n-split>
+    </n-gi>
+  </n-grid>
 </template>
 <script>
 import { defineComponent } from "vue";
