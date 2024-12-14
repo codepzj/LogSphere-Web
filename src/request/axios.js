@@ -5,7 +5,7 @@ import router from "@/router";
 const { message } = createDiscreteApi(["message"]);
 
 const request = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: import.meta.env.VITE_BASE_API,
   timeout: 5000,
   withCredentials: true,
 });

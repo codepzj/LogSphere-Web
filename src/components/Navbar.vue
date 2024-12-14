@@ -1,8 +1,17 @@
 <template>
-  <n-grid x-gap="12" cols="10" item-responsive responsive="screen" class="flex items-center">
+  <n-grid
+    x-gap="12"
+    cols="10"
+    item-responsive
+    responsive="screen"
+    class="flex items-center"
+  >
     <n-gi span="0 s:2">
       <div class="flex items-center">
-        <img src="/vite.svg" alt="Logsphere" /><span class="text-l font-bold ml-1.5">Logsphere</span>
+        <img src="/vite.svg" alt="Logsphere" /><span
+          class="text-l font-bold ml-1.5"
+          >Logsphere</span
+        >
       </div>
     </n-gi>
     <n-gi span="10 s:6">
@@ -17,8 +26,7 @@
       <div class="flex justify-end px-4" v-if="Object.keys(userInfo).length">
         <n-dropdown :options="dropdownOptions" @select="handleSelect">
           <div class="flex items-center">
-            <n-avatar round>{{ userInfo.avatar }}</n-avatar
-            >&nbsp;
+            <n-avatar :src="userInfo.avatar" round></n-avatar>&nbsp;
             <span>{{ userInfo.nickname }}</span>
           </div>
         </n-dropdown>

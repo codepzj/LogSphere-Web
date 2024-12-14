@@ -6,9 +6,9 @@ const userStore = defineStore(
     const userInfo = ref({});
     // 判断用户是否登录
     const isLogin = computed(() => Object.keys(userInfo.value).length !== 0);
-    const setUserAvatar = (avatarPath) => {
-      userInfo.value.avatar = avatarPath
-    }
+    const setUserProfile = ({ nickname, role, avatar }) => {
+      userInfo.value = { ...userInfo.value, nickname, role, avatar };
+    };
     const setUserInfo = info => {
       userInfo.value = info;
     };
@@ -16,7 +16,7 @@ const userStore = defineStore(
     return {
       userInfo,
       isLogin,
-      setUserAvatar,
+      setUserProfile,
       setUserInfo,
     };
   },

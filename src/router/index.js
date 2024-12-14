@@ -23,16 +23,16 @@ const routes = [
     name: "Login",
     component: Login,
     meta: {
-      NotShowNav: true
-    }
+      NotShowNav: true,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: Register,
     meta: {
-      NotShowNav: true
-    }
+      NotShowNav: true,
+    },
   },
   {
     path: "/profile",

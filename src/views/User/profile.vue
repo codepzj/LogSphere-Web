@@ -9,9 +9,11 @@
       <n-form-item path="role" label="头像">
         <n-upload
           list-type="image-card"
+          v-model:file-list="fileList"
           max="1"
           action="http://127.0.0.1:8080/user/avatar-upload"
           @finish="handleFinish"
+          @remove="handleRemove"
           >点击上传</n-upload
         >
       </n-form-item>
@@ -28,16 +30,21 @@
 <script setup>
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useMessage } from "naive-ui";
+import { UserEditProfile } from "@/api/userAPI.js";
 const store = userStore();
 const { userInfo } = storeToRefs(store);
 const message = useMessage();
 const model = ref({
+  account_id: 0,
   nickname: "",
   avatar: "",
   role: 0,
 });
+
+const fileList = ref([]);
+
 const options = [
   {
     label: "管理员",
@@ -52,21 +59,54 @@ const options = [
     value: 2,
   },
 ];
-const editProfile = () => {
+const editProfile = async () => {
   console.log(model.value);
+  const data = await UserEditProfile(model.value);
+  if (!data.code) {
+    store.setUserProfile(model.value);
+    message.success(data.msg);
+    console.log(userInfo.value);
+  } else {
+    message.error(data.msg);
+  }
 };
+
+// 处理图片上传后的回调事件
 const handleFinish = ({ event }) => {
   const response = JSON.parse(event.target.response);
   if (!response.code) {
-    const avatarPath = "uploads/user/" + response.data.filename;
-    store.setUserAvatar(avatarPath);
+    const avatarPath =
+      import.meta.env.VITE_PUBLIC_PATH + "user/" + response.data.filename;
+    model.value.avatar = avatarPath;
+    console.log(model.value);
     message.success(response.msg);
   } else {
     message.error(response.msg);
   }
 };
+
+const handleRemove = () => {
+  model.value.avatar = ""; // 清空 avatar
+  fileList.value = [];
+  message.success("头像已删除");
+};
 onMounted(() => {
-  const { nickname, role, avatar } = userInfo.value;
-  model.value = { nickname, role, avatar };
+  const { account_id, nickname, role, avatar } = userInfo.value;
+  model.value = { account_id, nickname, role, avatar };
+  console.log(model.value);
 });
+
+watch(
+  () => model.value.avatar,
+  avatarPath => {
+    console.log(avatarPath);
+    fileList.value.url = avatarPath;
+    fileList.value = [
+      {
+        status: "finished",
+        url: avatarPath,
+      },
+    ];
+  }
+);
 </script>

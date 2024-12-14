@@ -25,16 +25,30 @@ function UserClearStatus() {
   });
 }
 
-const uploadAvatar = async (avatar) => {
+const UserEditProfile = async data => {
+  const result = await request({
+    method: "post",
+    url: "/user/edit-profile",
+    data,
+  });
+  return result.data;
+};
+const uploadAvatar = async avatar => {
   const result = await request({
     method: "post",
     url: "/user/avatar-upload",
     headers: {
-      'Content-Type': 'multipart/form-data'
+      "Content-Type": "multipart/form-data",
     },
-    data: avatar
-  })
-  return result.data
-}
+    data: avatar,
+  });
+  return result.data;
+};
 
-export { UserRegister, UserLogin, UserClearStatus, uploadAvatar };
+export {
+  UserRegister,
+  UserLogin,
+  UserClearStatus,
+  uploadAvatar,
+  UserEditProfile,
+};
