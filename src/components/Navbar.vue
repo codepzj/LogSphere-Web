@@ -98,7 +98,7 @@ const clearLoginStatus = () => {
   UserClearStatus();
 };
 
-const handleSelect = (key) => {
+const handleSelect = key => {
   console.log(key);
 
   switch (key) {

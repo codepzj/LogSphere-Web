@@ -1,5 +1,9 @@
 <template>
-  <n-menu class="w-1/5" :options="menuOptions" @update:value="handleUpdateValue" />
+  <n-menu
+    class="w-1/5"
+    :options="menuOptions"
+    @update:value="handleUpdateValue"
+  />
 </template>
 
 <script>

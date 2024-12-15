@@ -22,14 +22,14 @@ const routes = [
       {
         path: "",
         name: "Program",
-        component: Program
+        component: Program,
       },
       {
         path: "script",
         name: "Script",
-        component: () => import("@/views/Dashboard/script.vue")
-      }
-    ]
+        component: () => import("@/views/Dashboard/script.vue"),
+      },
+    ],
   },
   {
     path: "/login",
