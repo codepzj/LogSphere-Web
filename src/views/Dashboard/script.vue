@@ -1,14 +1,5 @@
 <template>
-  <div class="flex">
-    <n-menu
-      class="w-1/5"
-      :options="menuOptions"
-      @update:value="handleUpdateValue"
-    />
-    <div class="w-4/5">
-      <router-view></router-view>
-    </div>
-  </div>
+  <n-menu class="w-1/5" :options="menuOptions" @update:value="handleUpdateValue" />
 </template>
 
 <script>
@@ -23,25 +14,15 @@ const menuOptions = [
         RouterLink,
         {
           to: {
-            name: "Program",
+            name: "Home",
+            params: {
+              lang: "zh-CN",
+            },
           },
         },
-        { default: () => "项目" }
+        { default: () => "回家" }
       ),
-    key: "Program",
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: "Script",
-          },
-        },
-        { default: () => "脚本" }
-      ),
-    key: "Script",
+    key: "go-back-home",
   },
 ];
 

@@ -5,6 +5,7 @@ import Register from "@/views/User/register.vue";
 import Profile from "@/views/User/profile.vue";
 import Test from "@/views/Test/index.vue";
 import Dashboard from "@/views/Dashboard/index.vue";
+import Program from "@/views/Dashboard/program.vue";
 import { userStore } from "@/store/userStore";
 
 const routes = [
@@ -17,6 +18,18 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    children: [
+      {
+        path: "",
+        name: "Program",
+        component: Program
+      },
+      {
+        path: "script",
+        name: "Script",
+        component: () => import("@/views/Dashboard/script.vue")
+      }
+    ]
   },
   {
     path: "/login",
