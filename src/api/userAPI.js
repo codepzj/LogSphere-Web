@@ -1,54 +1,9 @@
 import { request } from "@/request/axios";
 
-async function UserRegister({ account, password }) {
-  const result = await request({
-    method: "post",
-    url: "/user/create",
-    data: { account, password },
-  });
-  return result.data;
-}
+const UserRegister = ({ account, password }) => request({ method: "post", url: "/user/create", data: { account, password } }).then(result => result.data);
+const UserLogin = data => request({ method: "post", url: "/user/find", data }).then(result => result.data);
+const UserClearStatus = () => request({ method: "get", url: "/user/clear" });
+const UserEditProfile = data => request({ method: "post", url: "/user/edit-profile", data }).then(result => result.data);
+const uploadAvatar = avatar => request({ method: "post", url: "/user/avatar-upload", headers: { "Content-Type": "multipart/form-data" }, data: avatar }).then(result => result.data);
 
-async function UserLogin(data) {
-  const result = await request({
-    method: "post",
-    url: "/user/find",
-    data,
-  });
-  return result.data;
-}
-
-function UserClearStatus() {
-  request({
-    method: "get",
-    url: "/user/clear",
-  });
-}
-
-const UserEditProfile = async data => {
-  const result = await request({
-    method: "post",
-    url: "/user/edit-profile",
-    data,
-  });
-  return result.data;
-};
-const uploadAvatar = async avatar => {
-  const result = await request({
-    method: "post",
-    url: "/user/avatar-upload",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    data: avatar,
-  });
-  return result.data;
-};
-
-export {
-  UserRegister,
-  UserLogin,
-  UserClearStatus,
-  uploadAvatar,
-  UserEditProfile,
-};
+export { UserRegister, UserLogin, UserClearStatus, uploadAvatar, UserEditProfile };
