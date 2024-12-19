@@ -33,16 +33,20 @@ import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
+
 const route = useRoute();
-const RLName = ["Register", "Login"];
+
+const NavName = ["Register", "Login"];
+const SideName = ["Register", "Login","Profile"];
 const showNavBar = ref(false);
 const showSideBar = ref(false);
 watch(
   () => route.name,
-  (name) => {
-    const isRL = RLName.includes(name);
+  name => {
+    const isRL = NavName.includes(name);
+    const isRR = SideName.includes(name);
     showNavBar.value = !isRL;
-    showSideBar.value = !isRL;
+    showSideBar.value = !isRR;
   }
 );
 </script>

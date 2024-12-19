@@ -10,7 +10,7 @@
         <n-upload
           list-type="image-card"
           v-model:file-list="fileList"
-          max="1"
+          :max="1"
           action="http://127.0.0.1:8080/user/avatar-upload"
           @finish="handleFinish"
           @remove="handleRemove"

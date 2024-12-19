@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center h-screen">
     <div
-      class="w-3/5 md:w-1/2 lg:w-1/3 h-3/10 bg-slate-50 box-border p-8 shadow-md rounded-md"
+      class="w-3/5 md:w-1/2 lg:w-1/4 h-3/10 bg-slate-50 box-border p-8 shadow-md rounded-md"
     >
       <div class="text-xl text-center font-bold my-4">LogSphere</div>
       <n-form ref="formRef" :model="model" :rules="rules">
