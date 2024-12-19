@@ -28,6 +28,9 @@ export default defineConfig({
     }),
     vueDevTools(),
   ],
+  define: {
+    'process.env.BASE_API': JSON.stringify(process.env.VITE_BASE_API || 'http://localhost:8080/track/')
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),

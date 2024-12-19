@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
 import { useMessage } from "naive-ui";
@@ -49,6 +49,8 @@ const { setUserInfo } = store;
 const message = useMessage();
 const router = useRouter();
 
+const activeKey = ref(null);
+
 const menuOptions = [
   {
     label: () =>
@@ -57,22 +59,11 @@ const menuOptions = [
         {
           href: "/",
           target: "_self",
-          rel: "noopenner noreferrer",
+          rel: "noopener noreferrer",
         },
         "首页"
       ),
-  },
-  {
-    label: () =>
-      h(
-        "a",
-        {
-          href: "/dashboard",
-          target: "_self",
-          rel: "noopenner noreferrer",
-        },
-        "仪表盘"
-      ),
+    key: "home",
   },
   {
     label: () =>
@@ -81,10 +72,11 @@ const menuOptions = [
         {
           href: "/test",
           target: "_self",
-          rel: "noopenner noreferrer",
+          rel: "noopener noreferrer",
         },
         "测试页面"
       ),
+    key: "test",
   },
 ];
 

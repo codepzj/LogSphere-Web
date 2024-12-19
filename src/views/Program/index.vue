@@ -1,5 +1,8 @@
 <template>
-  <div></div>
+  <div>
+    项目管理页面
+    <router-view></router-view>
+  </div>
 </template>
 
 <script setup></script>

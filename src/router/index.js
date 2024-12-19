@@ -4,8 +4,10 @@ import Login from "@/views/User/login.vue";
 import Register from "@/views/User/register.vue";
 import Profile from "@/views/User/profile.vue";
 import Test from "@/views/Test/index.vue";
-import Dashboard from "@/views/Dashboard/index.vue";
-import Program from "@/views/Dashboard/program.vue";
+import ProgramIndex from "@/views/Program/index.vue";
+import ProgramList from "@/views/Program/list.vue";
+import ProgramCreate from "@/views/Program/create.vue";
+import Log from "@/views/Program/log.vue";
 import { userStore } from "@/store/userStore";
 
 const routes = [
@@ -15,28 +17,45 @@ const routes = [
     component: Home,
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
+    path: "/program",
+    name: "Program",
+    component: ProgramIndex,
     children: [
       {
         path: "",
-        name: "Program",
-        component: Program,
+        name: "ProgramHome",
+        redirect: { name: "ProgramList" },
+      },
+      {
+        path: "list",
+        name: "ProgramList",
+        component: ProgramList,
+      },
+      {
+        path: "create",
+        name: "ProgramCreate",
+        component: ProgramCreate,
       },
       {
         path: "script",
         name: "Script",
-        component: () => import("@/views/Dashboard/script.vue"),
+        component: () => import("@/views/Program/script.vue"),
+      },
+      {
+        path: "log/:websiteId",
+        name: "Log",
+        component: Log,
       },
     ],
   },
+
   {
     path: "/login",
     name: "Login",
     component: Login,
     meta: {
-      NotShowNav: true,
+      NotSidebar: true, // 登录页面不显示侧边栏
+      NotNavbar: true, // 登录页面不显示导航栏
     },
   },
   {
@@ -44,7 +63,8 @@ const routes = [
     name: "Register",
     component: Register,
     meta: {
-      NotShowNav: true,
+      NotSidebar: true, // 登录页面不显示侧边栏
+      NotNavbar: true, // 登录页面不显示导航栏
     },
   },
   {
