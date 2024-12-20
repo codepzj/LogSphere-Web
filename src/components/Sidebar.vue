@@ -2,14 +2,13 @@
   <div>
     <n-menu
       :options="menuOptions"
-      @update:value="handleUpdateValue"
       default-expand-all
     />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, h } from "vue";
 import { useMessage } from "naive-ui";
 import { RouterLink } from "vue-router";
 import { findProgramsByID } from "@/api/programAPI";
@@ -23,17 +22,35 @@ const message = useMessage();
 // 定义响应式变量
 const menuOptions = ref([
   {
+    label: () =>
+      h(RouterLink, { to: { name: "Home" } }, { default: () => "首页" }),
+    key: "Home",
+  },
+  {
     label: "项目",
     key: "Program",
     children: [
       {
-        label: () => h(RouterLink, { to: { name: "ProgramCreate" } }, { default: () => "创建项目" }),
+        label: () =>
+          h(
+            RouterLink,
+            { to: { name: "ProgramCreate" } },
+            { default: () => "创建项目" }
+          ),
         key: "ProgramCreate",
       },
+      // 这个子菜单项会被动态填充
       {
-        label: () => h(RouterLink, { to: { name: "ProgramList" } }, { default: () => "项目列表" }),
+        label: () =>
+          h(
+            RouterLink,
+            { to: { name: "Program" } },
+            { default: () => "项目列表" }
+          ),
         key: "ProgramList",
-        children: [], // 这是一个子菜单，后面会根据项目数据动态更新
+        children: [], // 这里会根据项目数据动态填充子菜单
+        // 设置展开属性
+        expand: false,  // 确保 Program 菜单项本身是可展开的
       },
     ],
   },
@@ -41,16 +58,65 @@ const menuOptions = ref([
 
 // 获取项目数据并更新菜单
 const getPrograms = async (id) => {
-  const { data } = await findProgramsByID(id);
-  const programLinks = data.map((program) => ({
-    label: () => h(RouterLink, { to: { name: "Log", params: { websiteId: program.website_id } } }, { default: () => program.name }),
-    key: program.website_id,
-  }));
+  try {
+    const { data } = await findProgramsByID(id);
+    const programLinks = data.map((program) => ({
+      label: program.name, // 以项目名称为菜单项的标题
+      key: program.website_id,
+      children: [
+        // 每个项目下面有两个子菜单
+        {
+          label: () =>
+            h(
+              RouterLink,
+              {
+                to: {
+                  name: "Analyse",
+                  params: { websiteId: program.website_id },
+                },
+              },
+              { default: () => "分析" }
+            ),
+          key: `${program.website_id}_Analyse`,
+        },
+        {
+          label: () =>
+            h(
+              RouterLink,
+              {
+                to: {
+                  name: "Script",
+                  params: { websiteId: program.website_id },
+                },
+              },
+              { default: () => "脚本" }
+            ),
+          key: `${program.website_id}_Script`,
+        },
+        {
+          label: () =>
+            h(
+              RouterLink,
+              {
+                to: { name: "Log", params: { websiteId: program.website_id } },
+              },
+              { default: () => "日志" }
+            ),
+          key: `${program.website_id}_Log`,
+        },
+      ],
+    }));
 
-  // 动态更新 "ProgramList" 子菜单
-  const programListMenu = menuOptions.value.find(item => item.key === "Program")?.children.find(item => item.key === "ProgramList");
-  if (programListMenu) {
-    programListMenu.children = programLinks; // 将项目数据添加为 ProgramList 的子菜单项
+    // 动态更新 "ProgramList" 子菜单
+    const programListMenu = menuOptions.value
+      .find((item) => item.key === "Program")
+      ?.children.find((item) => item.key === "ProgramList");
+    if (programListMenu) {
+      programListMenu.children = programLinks; // 将项目数据添加为 ProgramList 的子菜单项
+    }
+  } catch (error) {
+    message.error("获取项目数据失败");
+    console.error(error);
   }
 };
 
@@ -60,10 +126,4 @@ onMounted(() => {
     getPrograms(userInfo.value.account_id);
   }
 });
-
-// 处理菜单项更新的回调
-const handleUpdateValue = (key, item) => {
-  message.info(`[onUpdate:value]: ${JSON.stringify(key)}`);
-  message.info(`[onUpdate:value]: ${JSON.stringify(item)}`);
-};
 </script>

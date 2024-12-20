@@ -15,7 +15,7 @@
               <n-button
                 @click="
                   $router.push({
-                    name: 'Log',
+                    name: 'Analyse',
                     params: { websiteId: card.website_id },
                   });
                 "

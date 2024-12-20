@@ -4,10 +4,10 @@ import Login from "@/views/User/login.vue";
 import Register from "@/views/User/register.vue";
 import Profile from "@/views/User/profile.vue";
 import Test from "@/views/Test/index.vue";
-import ProgramIndex from "@/views/Program/index.vue";
-import ProgramList from "@/views/Program/list.vue";
+import Program from "@/views/Program/list.vue";
 import ProgramCreate from "@/views/Program/create.vue";
-import Log from "@/views/Program/log.vue";
+import ProgramDetail from "@/views/Program/detail.vue";
+import Log from "@/views/Program/Detail/log.vue";
 import { userStore } from "@/store/userStore";
 
 const routes = [
@@ -19,32 +19,32 @@ const routes = [
   {
     path: "/program",
     name: "Program",
-    component: ProgramIndex,
+    component: Program,
+  },
+  {
+    path: "/program/create",
+    name: "ProgramCreate",
+    component: ProgramCreate,
+  },
+  {
+    path: "/program/detail",
+    name: "ProgramDetail",
+    component: ProgramDetail,
     children: [
-      {
-        path: "",
-        name: "ProgramHome",
-        redirect: { name: "ProgramList" },
-      },
-      {
-        path: "list",
-        name: "ProgramList",
-        component: ProgramList,
-      },
-      {
-        path: "create",
-        name: "ProgramCreate",
-        component: ProgramCreate,
-      },
-      {
-        path: "script",
-        name: "Script",
-        component: () => import("@/views/Program/script.vue"),
-      },
       {
         path: "log/:websiteId",
         name: "Log",
         component: Log,
+      },
+      {
+        path: "script/:websiteId",
+        name: "Script",
+        component: () => import("@/views/Program/Detail/script.vue"),
+      },
+      {
+        path: "analyse/:websiteId",
+        name: "Analyse",
+        component: () => import("@/views/Program/Detail/analyse.vue"),
       },
     ],
   },

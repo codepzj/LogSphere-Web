@@ -18,7 +18,7 @@
               <router-view></router-view>
             </div>
           </n-layout-content>
-          <n-layout-footer class="fixed bottom-0 right-0">
+          <n-layout-footer class="fixed bottom-0 left-0">
             <span class="px-8"
               ><strong>本站是开源项目Logsphere的演示站</strong>
             </span>

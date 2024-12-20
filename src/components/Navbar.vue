@@ -6,22 +6,15 @@
     responsive="screen"
     class="flex items-center"
   >
-    <n-gi span="0 s:2">
-      <div class="flex items-center">
-        <img src="/vite.svg" alt="Logsphere" />
-        <span class="text-l font-bold ml-1.5">Logsphere</span>
-      </div>
+    <n-gi span="6">
+      <router-link :to="{ name: 'Home' }">
+        <div class="flex items-center">
+          <img src="/vite.svg" alt="Logsphere" />
+          <span class="text-l font-bold ml-1.5">Logsphere</span>
+        </div>
+      </router-link>
     </n-gi>
-    <n-gi span="10 s:6">
-      <n-menu
-        v-model:value="activeKey"
-        mode="horizontal"
-        :options="menuOptions"
-        responsive
-        default-size="0.8"
-      />
-    </n-gi>
-    <n-gi span="0 s:2">
+    <n-gi span="4">
       <div class="flex justify-end px-4" v-if="Object.keys(userInfo).length">
         <n-dropdown :options="dropdownOptions" @select="handleSelect">
           <div class="flex items-center">
@@ -48,37 +41,6 @@ const { setUserInfo } = store;
 
 const message = useMessage();
 const router = useRouter();
-
-const activeKey = ref(null);
-
-const menuOptions = [
-  {
-    label: () =>
-      h(
-        "a",
-        {
-          href: "/",
-          target: "_self",
-          rel: "noopener noreferrer",
-        },
-        "首页"
-      ),
-    key: "home",
-  },
-  {
-    label: () =>
-      h(
-        "a",
-        {
-          href: "/test",
-          target: "_self",
-          rel: "noopener noreferrer",
-        },
-        "测试页面"
-      ),
-    key: "test",
-  },
-];
 
 const dropdownOptions = [
   { label: "用户资料", key: "profile" },

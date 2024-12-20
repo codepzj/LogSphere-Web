@@ -1,25 +1,20 @@
 (function () {
   "use strict";
 
-  const API_URL = "ws://localhost:8080/track/"; // WebSocket 地址
+  const API_URL = "ws://localhost:8081/track/"; // WebSocket 地址
   const AUTO_TRACK = true; // 是否自动追踪页面访问
   const EXCLUDE_SEARCH = true; // 是否排除 URL 中的查询参数
   const HEARTBEAT_INTERVAL = 30000; // 设置心跳包发送间隔，单位：毫秒（30秒）
-  const RECONNECT_INTERVAL = 5000; // 重连间隔，单位：毫秒（5秒）
+  const RECONNECT_INTERVAL = 5000; // 重连间隔，单位：毫秒（5秒）)
   const MAX_RECONNECT_ATTEMPTS = 5; // 最大重连尝试次数
-
-  let { screen, navigator, location, document } = window;
-  let { width, height } = screen;
-  let { language, userAgent } = navigator;
-  let { href, origin } = location;
-  let visitorId = getOrCreateVisitorId(); // 获取唯一访客 ID
-  let referrer = document.referrer; // 上一个页面的 URL
-  const currentScript = document.currentScript;
-  const websiteId = currentScript.getAttribute("data-website-id");
 
   let socket;
   let heartbeatIntervalId;
   let reconnectAttempts = 0;
+  let ipAddr = null; // 用于存储 IP 地址
+  let locationInfo = null; // 用于存储位置
+  let visitorId = getOrCreateVisitorId(); // 获取唯一访客 ID
+  let websiteId = ""; // 站点 ID (从 script 标签中获取)
 
   // 获取或创建访客唯一 ID
   function getOrCreateVisitorId() {
@@ -37,9 +32,28 @@
     return Math.random().toString(36).substring(2, 15) + Date.now();
   }
 
+  // 获取必要的页面信息（每次路由变化时更新）
+  function updatePageInfo() {
+    const { screen, navigator, location, document } = window;
+    const { width, height } = screen;
+    const { language, userAgent } = navigator;
+    const { href, origin } = location;
+    const referrer = document.referrer;
+
+    return {
+      width,
+      height,
+      language,
+      userAgent,
+      href,
+      origin,
+      referrer,
+    };
+  }
+
   // 处理 URL，去掉查询参数和 hash
   function cleanUrl(url) {
-    const urlObj = new URL(url, origin);
+    const urlObj = new URL(url, window.location.origin);
     return EXCLUDE_SEARCH ? urlObj.pathname : urlObj.pathname + urlObj.search;
   }
 
@@ -52,28 +66,56 @@
     }
   }
 
+  // 获取 IP 地址和位置（只在 pageview 时请求一次）
+  async function fetchIpAndLocation() {
+    try {
+      const response = await fetch("http://ip-api.com/json");
+      const data = await response.json();
+      if (data.status === "success") {
+        ipAddr = data.query; // 获取 IP 地址
+        locationInfo = `${data.country}`; // 获取城市、区域和国家作为位置
+      }
+    } catch (error) {
+      console.error("Failed to fetch IP and location:", error);
+    }
+  }
+
   // 追踪页面访问
-  function trackPageView() {
+  async function trackPageView() {
+    console.log("Tracking page view");
+
+    // 更新页面信息
+    const { width, height, language, userAgent, href, origin, referrer } =
+      updatePageInfo();
+
+    // 等待 IP 和位置信息获取完成
+    if (!ipAddr || !locationInfo) {
+      await fetchIpAndLocation(); // 等待 IP 和位置数据
+    }
+
     const payload = {
-      type: "pageview",
-      visitorId: visitorId,
-      url: cleanUrl(href),
-      referrer: referrer.startsWith(origin) ? origin : referrer,
-      language: language,
-      screen: `${width}x${height}`,
-      userAgent: userAgent,
-      timestamp: Date.now(),
-      website_id: websiteId,
+      type: "pageview", // 类型为 pageview
+      visitorId: visitorId, // 唯一访客 ID
+      url: cleanUrl(href), // 页面 URL
+      referrer: referrer.startsWith(origin) ? origin : referrer, // 上一个页面 URL
+      language: language, // 浏览器语言
+      screen: `${width}x${height}`, // 屏幕分辨率
+      userAgent: userAgent, // 用户代理信息
+      timestamp: Date.now(), // 当前时间戳
+      website_id: websiteId, // 站点 ID
+      ip_addr: ipAddr, // IP 地址
+      location: locationInfo, // 地理位置
     };
+
     sendToServer(payload);
   }
 
   // 发送心跳包
   function sendHeartbeat() {
     const payload = {
-      type: "heartbeat",
+      type: "heartbeat", // 类型为 heartbeat
       visitorId: visitorId,
-      url: cleanUrl(href),
+      url: cleanUrl(window.location.href),
       timestamp: Date.now(),
       website_id: websiteId,
     };
@@ -88,7 +130,7 @@
     const payload = {
       type: "pageStayTime", // 自定义类型
       visitorId: visitorId,
-      url: cleanUrl(href),
+      url: cleanUrl(window.location.href),
       stayDuration: stayDuration, // 页面停留时长
       timestamp: Date.now(),
       website_id: websiteId,
@@ -141,8 +183,25 @@
     sendPageStayTime(); // 在页面关闭前发送停留时间
   });
 
+  // 监听页面路由变化，触发 `trackPageView`
+  if (window.history.pushState) {
+    const originalPushState = history.pushState;
+    history.pushState = function (state, title, url) {
+      originalPushState.apply(history, arguments);
+      trackPageView(); // 页面切换时触发 pageview
+    };
+
+    window.addEventListener("popstate", function () {
+      trackPageView(); // 浏览器前进或后退时触发 pageview
+    });
+  }
+
   // 启动 WebSocket
   initWebSocket();
+
+  // 获取站点 ID
+  const currentScript = document.currentScript;
+  websiteId = currentScript.getAttribute("data-website-id");
 
   // 暴露 API
   window.Tracker = {

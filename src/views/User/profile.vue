@@ -11,7 +11,7 @@
           list-type="image-card"
           v-model:file-list="fileList"
           :max="1"
-          action="http://127.0.0.1:8080/user/avatar-upload"
+          :action="uploadAPI"
           @finish="handleFinish"
           @remove="handleRemove"
           >点击上传</n-upload
@@ -44,7 +44,7 @@ const model = ref({
 });
 
 const fileList = ref([]);
-
+const uploadAPI = import.meta.env.VITE_BASE_API + "/user/avatar-upload"
 const options = [
   {
     label: "管理员",
