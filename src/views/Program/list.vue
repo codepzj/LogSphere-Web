@@ -17,7 +17,7 @@
                   $router.push({
                     name: 'Analyse',
                     params: { websiteId: card.website_id },
-                  });
+                  })
                 "
                 >Views</n-button
               >

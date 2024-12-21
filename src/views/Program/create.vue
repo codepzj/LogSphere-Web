@@ -33,39 +33,36 @@
   </n-modal>
 </template>
 
-<script>
-import { defineComponent, reactive, ref } from "vue";
+<script setup>
+import { ref, reactive } from "vue";
+import { useMessage } from "naive-ui";
 import { createProgram } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
-import { useMessage } from "naive-ui";
 import { storeToRefs } from "pinia";
 
-export default defineComponent({
-  setup() {
-    const { userInfo } = storeToRefs(userStore());
-    const messsage = useMessage();
-    const showModal = ref(false);
-    const model = reactive({
-      name: "",
-      domain: "",
-      secure: true,
-      account_id: userInfo.value["account_id"],
-    });
+// Extract user info from the store
+const { userInfo } = storeToRefs(userStore());
 
-    const handleSubmit = async () => {
-      const data = await createProgram(model);
-      if (data.code === 0) {
-        messsage.success("创建项目成功");
-        showModal.value = false;
-      } else {
-        messsage.error("创建项目失败");
-      }
-    };
-    return {
-      showModal,
-      model,
-      handleSubmit,
-    };
-  },
+// Message hook from naive-ui
+const message = useMessage();
+
+// Reactive model for form data
+const showModal = ref(false);
+const model = reactive({
+  name: "",
+  domain: "",
+  secure: true,
+  account_id: userInfo.value["account_id"],
 });
+
+// Handle form submission
+const handleSubmit = async () => {
+  const data = await createProgram(model);
+  if (data.code === 0) {
+    message.success("创建项目成功");
+    showModal.value = false;
+  } else {
+    message.error("创建项目失败");
+  }
+};
 </script>

@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
 import { useMessage } from "naive-ui";

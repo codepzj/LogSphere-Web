@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const API_URL = "ws://localhost:8081/track/";
+  const API_URL = "__WEBSOCKET_API__";
   const AUTO_TRACK = true; // 是否自动追踪页面访问
   const EXCLUDE_SEARCH = true; // 是否排除 URL 中的查询参数
   const HEARTBEAT_INTERVAL = 30000; // 设置心跳包发送间隔，单位：毫秒（30秒）

@@ -50,6 +50,15 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3001, // 设置开发服务器端口为 3000
+    port: 3001, // 设置开发服务器端口为 3001
+    proxy: {
+      // Proxy all requests starting with "/api" to the backend server at port 8081
+      "/api": {
+        target: "http://localhost:8081", // Backend server URL
+        changeOrigin: true, // Avoid CORS issues
+        secure: false, // Set to true if using HTTPS on the backend
+        rewrite: path => path.replace(/^\/api/, ""), // Remove /api prefix before forwarding to the backend
+      },
+    },
   },
 });
