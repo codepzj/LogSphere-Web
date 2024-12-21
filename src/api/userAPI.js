@@ -15,7 +15,7 @@ const UserEditProfile = data =>
   request({ method: "post", url: "/user/edit-profile", data }).then(
     result => result.data
   );
-const uploadAvatar = (data) =>
+const uploadAvatar = data =>
   request({
     method: "post",
     url: "/user/avatar-upload",

@@ -37,7 +37,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const NavName = ["Register", "Login"];
-const SideName = ["Register", "Login","Profile"];
+const SideName = ["Register", "Login", "Profile"];
 const showNavBar = ref(false);
 const showSideBar = ref(false);
 watch(

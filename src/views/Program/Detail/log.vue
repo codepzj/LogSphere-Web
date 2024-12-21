@@ -20,7 +20,7 @@ const formData = ref([]);
 const pagination = ref({
   pageSize: 10,
 });
-const getRecords = async (websiteId) => {
+const getRecords = async websiteId => {
   const data = await getAllRecordsByWebsitID(websiteId);
   formData.value = data.data;
   console.log(formData.value);
@@ -52,6 +52,4 @@ onBeforeRouteUpdate((to, from, next) => {
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

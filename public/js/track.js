@@ -84,7 +84,7 @@
       updatePageInfo();
 
     // 等待 IP 和位置信息获取完成
-    const { ip, location } = await fetchIpAndLocation(); // 等待 IP 和位置数据
+    // const { ip, location } = await fetchIpAndLocation(); // 等待 IP 和位置数据
 
     const payload = {
       type: "pageview", // 类型为 pageview
@@ -96,8 +96,8 @@
       userAgent: userAgent, // 用户代理信息
       timestamp: Date.now(), // 当前时间戳
       website_id: websiteId, // 站点 ID
-      ip_addr: ip, // IP 地址
-      location: location, // 地理位置
+      // ip_addr: ip, // IP 地址
+      // location: location, // 地理位置
     };
 
     sendToServer(payload);

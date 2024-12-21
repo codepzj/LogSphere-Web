@@ -1,9 +1,6 @@
 <template>
   <div>
-    <n-menu
-      :options="menuOptions"
-      default-expand-all
-    />
+    <n-menu :options="menuOptions" default-expand-all />
   </div>
 </template>
 
@@ -50,17 +47,17 @@ const menuOptions = ref([
         key: "ProgramList",
         children: [], // 这里会根据项目数据动态填充子菜单
         // 设置展开属性
-        expand: false,  // 确保 Program 菜单项本身是可展开的
+        expand: false, // 确保 Program 菜单项本身是可展开的
       },
     ],
   },
 ]);
 
 // 获取项目数据并更新菜单
-const getPrograms = async (id) => {
+const getPrograms = async id => {
   try {
     const { data } = await findProgramsByID(id);
-    const programLinks = data.map((program) => ({
+    const programLinks = data.map(program => ({
       label: program.name, // 以项目名称为菜单项的标题
       key: program.website_id,
       children: [
@@ -109,8 +106,8 @@ const getPrograms = async (id) => {
 
     // 动态更新 "ProgramList" 子菜单
     const programListMenu = menuOptions.value
-      .find((item) => item.key === "Program")
-      ?.children.find((item) => item.key === "ProgramList");
+      .find(item => item.key === "Program")
+      ?.children.find(item => item.key === "ProgramList");
     if (programListMenu) {
       programListMenu.children = programLinks; // 将项目数据添加为 ProgramList 的子菜单项
     }
