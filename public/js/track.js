@@ -64,17 +64,6 @@
     }
   }
 
-  // 获取 IP 地址和位置（只在 pageview 时请求一次）
-  async function fetchIpAndLocation() {
-    try {
-      const response = await fetch("https://ipapi.co/json/");
-      const data = await response.json();
-      return { ip: data.ip, location: data.country };
-    } catch (error) {
-      console.error("Failed to fetch IP and location:", error);
-    }
-  }
-
   // 追踪页面访问
   async function trackPageView() {
     console.log("Tracking page view");
@@ -82,9 +71,6 @@
     // 更新页面信息
     const { width, height, language, userAgent, href, origin, referrer } =
       updatePageInfo();
-
-    // 等待 IP 和位置信息获取完成
-    // const { ip, location } = await fetchIpAndLocation(); // 等待 IP 和位置数据
 
     const payload = {
       type: "pageview", // 类型为 pageview
@@ -96,8 +82,6 @@
       userAgent: userAgent, // 用户代理信息
       timestamp: Date.now(), // 当前时间戳
       website_id: websiteId, // 站点 ID
-      // ip_addr: ip, // IP 地址
-      // location: location, // 地理位置
     };
 
     sendToServer(payload);
