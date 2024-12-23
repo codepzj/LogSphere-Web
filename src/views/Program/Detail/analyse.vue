@@ -203,7 +203,7 @@ const getgraphData = async () => {
   pageInfo.value = data.data.pageInfo;
 
   // After data is fetched, sort the data
-  sortData();
+  if (locationInfo.value && referrerInfo.value && pageInfo.value) sortData();
 };
 
 const findDomain = async () => {

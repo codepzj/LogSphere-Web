@@ -103,7 +103,7 @@
   function sendPageStayTime() {
     const pageLoadTime = localStorage.getItem("pageLoadTime"); // 获取页面加载时的时间戳
     const stayDuration = Date.now() - pageLoadTime; // 计算页面停留时长（单位：毫秒）
-
+    if (stayDuration > 600000) stayDuration = 600000;
     const payload = {
       type: "pageStayTime", // 自定义类型
       visitorId: visitorId,

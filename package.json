@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^6.0.2",
+    "@vicons/ionicons5": "^0.13.0",
     "axios": "^1.7.9",
     "globals": "^15.14.0",
     "pinia": "^2.3.0",
