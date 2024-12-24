@@ -5,19 +5,19 @@
       <div
         class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
       >
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">页面浏览量</h3>
+        <h3 class="text-xl font-semibold mb-3">页面浏览量</h3>
         <p class="text-3xl font-bold text-blue-600">{{ views }}</p>
       </div>
       <div
         class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
       >
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">访客数量</h3>
+        <h3 class="text-xl font-semibold mb-3">访客数量</h3>
         <p class="text-3xl font-bold text-green-600">{{ visitors }}</p>
       </div>
       <div
         class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
       >
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">
+        <h3 class="text-xl font-semibold mb-3">
           平均页面停留时长
         </h3>
         <p class="text-3xl font-bold text-yellow-600">
@@ -29,14 +29,14 @@
     <!-- Collapsible Section for Location Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 bg-gray-100 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
         @click="toggleCollapse('location')"
       >
-        <span class="text-lg font-semibold text-gray-800">地理位置分布</span>
+        <span class="text-lg font-semibold">地理位置分布</span>
         <svg
           :class="activeCollapse === 'location' ? 'transform rotate-180' : ''"
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 text-gray-600 transition-transform duration-300"
+          class="w-5 h-5 transition-transform duration-300"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -51,16 +51,16 @@
       </div>
       <div
         v-show="activeCollapse === 'location'"
-        class="mt-4 p-4 bg-gray-50 rounded-md shadow-sm"
+        class="mt-4 p-4 rounded-md shadow-sm"
       >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div
             v-for="(location, country) in sortedLocationInfo"
             :key="country"
-            class="p-3 bg-white rounded-md shadow-md"
+            class="p-3 rounded-md shadow-md"
           >
-            <p class="font-medium text-gray-700">{{ location.country }}:</p>
-            <p class="text-sm text-gray-500">
+            <p class="font-medium">{{ location.country }}:</p>
+            <p class="text-sm">
               {{ location.count }} 次浏览 ({{
                 (location.ratio * 100).toFixed(2)
               }}%)
@@ -73,14 +73,14 @@
     <!-- Collapsible Section for Referrer Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 bg-gray-100 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
         @click="toggleCollapse('referrer')"
       >
-        <span class="text-lg font-semibold text-gray-800">来源信息</span>
+        <span class="text-lg font-semibold">来源信息</span>
         <svg
           :class="activeCollapse === 'referrer' ? 'transform rotate-180' : ''"
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 text-gray-600 transition-transform duration-300"
+          class="w-5 h-5 transition-transform duration-300"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -95,18 +95,18 @@
       </div>
       <div
         v-show="activeCollapse === 'referrer'"
-        class="mt-4 p-4 bg-gray-50 rounded-md shadow-sm"
+        class="mt-4 p-4 rounded-md shadow-sm"
       >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div
             v-for="(referrer, index) in sortedReferrerInfo"
             :key="index"
-            class="p-3 bg-white rounded-md shadow-md"
+            class="p-3 rounded-md shadow-md"
           >
-            <p class="font-medium text-gray-700">
+            <p class="font-medium">
               {{ referrer.Domain || "直接访问" }}:
             </p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm">
               {{ referrer.Count }} 次浏览 ({{
                 (referrer.Ratio * 100).toFixed(2)
               }}%)
@@ -119,14 +119,14 @@
     <!-- Collapsible Section for Page Access Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 bg-gray-100 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
         @click="toggleCollapse('page')"
       >
-        <span class="text-lg font-semibold text-gray-800">页面访问情况</span>
+        <span class="text-lg font-semibold">页面访问情况</span>
         <svg
           :class="activeCollapse === 'page' ? 'transform rotate-180' : ''"
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 text-gray-600 transition-transform duration-300"
+          class="w-5 h-5 transition-transform duration-300"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -141,15 +141,15 @@
       </div>
       <div
         v-show="activeCollapse === 'page'"
-        class="mt-4 p-6 bg-gray-50 rounded-md shadow-sm"
+        class="mt-4 p-6 rounded-md shadow-sm"
       >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div
             v-for="(page, path) in sortedPageInfo"
             :key="path"
-            class="p-4 bg-white rounded-md shadow-md"
+            class="p-4 rounded-md shadow-md"
           >
-            <p class="font-medium text-gray-700">
+            <p class="font-medium">
               <a
                 :href="websiteURL + path"
                 target="_blank"
@@ -158,7 +158,7 @@
                 {{ decodeURIComponent(websiteURL + path) }}
               </a>
             </p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm">
               {{ page.count }} 次浏览 ({{ (page.ratio * 100).toFixed(2) }}%)
             </p>
           </div>

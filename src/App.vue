@@ -1,9 +1,11 @@
 <template>
-  <n-config-provider>
+  <n-config-provider :theme="theme" class="h-screen">
     <n-message-provider>
-      <div class="px-4">
-        <n-layout>
-          <n-layout-header><Navbar v-if="showNavBar"></Navbar></n-layout-header>
+      <div class="h-full">
+        <n-layout class="h-full">
+          <n-layout-header
+            ><Navbar v-if="showNavBar" @changeTheme="t => (theme = t)"></Navbar
+          ></n-layout-header>
           <n-layout-content content-style="padding: 24px;">
             <div v-if="showSideBar">
               <n-space vertical>
@@ -32,7 +34,7 @@
             </div>
           </n-layout-content>
           <n-layout-footer class="fixed bottom-0 left-0">
-            <span class="px-8"
+            <span class="px-8 z-50"
               ><strong>本站是开源项目Logsphere的演示站</strong>
             </span>
           </n-layout-footer>
@@ -48,6 +50,7 @@ import { watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const theme = ref(null);
 
 const NavName = ["Register", "Login"];
 const SideName = ["Register", "Login", "Profile"];
@@ -75,9 +78,15 @@ watch(
   }
 );
 
-watch(screenWidth, width => {
-  collapsed.value = width < 768;
-});
+watch(
+  screenWidth,
+  width => {
+    collapsed.value = width < 768;
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 <style lang="scss">
 @use "styles/main.scss" as *;

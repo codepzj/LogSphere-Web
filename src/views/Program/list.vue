@@ -12,15 +12,20 @@
           <n-card :title="card.name" size="medium" class="rounded-lg">
             <div>{{ card.domain }} {{ card.websiteId }}</div>
             <div class="flex justify-end">
-              <n-button
-                @click="
-                  $router.push({
-                    name: 'Analyse',
-                    params: { websiteId: card.website_id },
-                  })
-                "
-                >Views</n-button
-              >
+              <div>
+                <n-button
+                  @click="
+                    $router.push({
+                      name: 'Analyse',
+                      params: { websiteId: card.website_id },
+                    })
+                  "
+                  >详情</n-button
+                >
+                <n-button @click="deleteProgram(card.website_id)"
+                  >删除</n-button
+                >
+              </div>
             </div>
           </n-card>
         </div>
@@ -36,9 +41,10 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { findProgramsByID } from "@/api/programAPI";
+import { deleteProgramByID, findProgramsByID } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
+import { useMessage } from "naive-ui";
 
 // 从 Pinia store 获取用户信息
 const { userInfo } = storeToRefs(userStore());
@@ -46,20 +52,27 @@ const { userInfo } = storeToRefs(userStore());
 // 定义响应式变量
 const isLoading = ref(true);
 const cardList = ref([]);
+const message = useMessage();
 
 // 获取项目列表数据
 const getCardList = async id => {
   const data = await findProgramsByID(id);
-  console.log(data);
   cardList.value = data.data;
   isLoading.value = false;
-  console.log(cardList.value);
+};
+
+const deleteProgram = async websiteId => {
+  const data = await deleteProgramByID(websiteId);
+  if (!data.code) {
+    getCardList(userInfo.value["account_id"]);
+    message.success("项目删除成功");
+  } else {
+    message.error("项目删除失败");
+  }
 };
 
 // 组件挂载后获取数据
 onMounted(() => {
-  console.log(userInfo.value);
-  console.log(Object.keys(userInfo.value));
   getCardList(userInfo.value["account_id"]);
 });
 </script>

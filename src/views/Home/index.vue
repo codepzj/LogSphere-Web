@@ -1,35 +1,35 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+  <div class="p-6 rounded-lg shadow-md mb-6">
     <!-- 项目技术栈 -->
-    <h3 class="text-2xl font-semibold text-gray-800 mb-4">项目技术栈</h3>
-    <p class="text-lg text-gray-700 mb-4">
+    <h3 class="text-2xl font-semibold mb-4">项目技术栈</h3>
+    <p class="text-lg mb-4">
       本项目使用了以下技术栈，确保了高效、灵活的开发和部署：
     </p>
     <div class="flex flex-wrap gap-4 mb-6">
-      <span
-        class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium"
-        >Vue</span
+      <n-button
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        >Vue</n-button
       >
-      <span
-        class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium"
-        >Gin</span
+      <n-button
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        >Gin</n-button
       >
-      <span
-        class="bg-gray-700 text-white px-3 py-1 rounded-full text-sm font-medium"
-        >WebSocket</span
+      <n-button
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        >WebSocket</n-button
       >
-      <span
-        class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium"
-        >Nginx</span
+      <n-button
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        >Nginx</n-button
       >
-      <span
-        class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium"
-        >Docker</span
+      <n-button
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        >Docker</n-button
       >
     </div>
 
     <!-- Logsphere 介绍 -->
-    <div class="text-lg text-gray-800 mb-4">
+    <div class="text-lg mb-4">
       <strong>Logsphere</strong>
       是一款专注于用户行为分析的日志管理系统。它通过采集用户在应用中的行为数据，帮助团队实时了解用户需求，识别潜在的产品问题，并优化用户体验。该系统的核心功能包括：
     </div>
@@ -53,7 +53,7 @@
       </li>
     </ul>
 
-    <div class="text-lg text-gray-800 mb-4">
+    <div class="text-lg mb-4">
       Logsphere
       不仅帮助团队更好地理解用户需求，还能够通过数据优化产品决策。通过对用户行为的深度挖掘，团队可以在实际操作中发现潜在的问题并快速反馈，提升整体的用户体验，进而加速产品的迭代和优化。
     </div>

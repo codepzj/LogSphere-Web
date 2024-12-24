@@ -9,12 +9,7 @@ import { RouterLink } from "vue-router";
 import { findProgramsByID } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
 import { storeToRefs } from "pinia";
-import {
-  HomeOutline as HomeIcon,
-  ListCircleOutline as ProgramIcon,
-  AddCircleOutline as AddProgramIcon,
-  ListCircleOutline as ProgramListIcon,
-} from "@vicons/ionicons5";
+import { Icon } from "@iconify/vue";
 
 // 从 Pinia store 获取用户信息
 const { userInfo } = storeToRefs(userStore());
@@ -25,12 +20,12 @@ const menuOptions = ref([
     label: () =>
       h(RouterLink, { to: { name: "Home" } }, { default: () => "首页" }),
     key: "Home",
-    icon: renderIcon(HomeIcon),
+    icon: renderIcon("meteor-icons:home"),
   },
   {
     label: "项目",
     key: "Program",
-    icon: renderIcon(ProgramIcon),
+    icon: renderIcon("solar:programming-linear"),
     children: [
       {
         label: () =>
@@ -40,7 +35,7 @@ const menuOptions = ref([
             { default: () => "创建项目" }
           ),
         key: "ProgramCreate",
-        icon: renderIcon(AddProgramIcon),
+        icon: renderIcon("formkit:add"),
       },
       // 这个子菜单项会被动态填充
       {
@@ -54,14 +49,14 @@ const menuOptions = ref([
         children: [], // 这里会根据项目数据动态填充子菜单
         // 设置展开属性
         expand: false, // 确保 Program 菜单项本身是可展开的
-        icon: renderIcon(ProgramListIcon),
+        icon: renderIcon("icon-park-outline:list"),
       },
     ],
   },
 ]);
 
-function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+function renderIcon(name) {
+  return () => h(Icon, { icon: name });
 }
 
 // 获取项目数据并更新菜单
@@ -71,6 +66,7 @@ const getPrograms = async id => {
     const programLinks = data.map(program => ({
       label: program.name, // 以项目名称为菜单项的标题
       key: program.website_id,
+      icon: renderIcon("mdi:web"),
       children: [
         // 每个项目下面有两个子菜单
         {
@@ -86,6 +82,7 @@ const getPrograms = async id => {
               { default: () => "分析" }
             ),
           key: `${program.website_id}_Analyse`,
+          icon: renderIcon("bx:analyse"),
         },
         {
           label: () =>
@@ -99,6 +96,7 @@ const getPrograms = async id => {
               },
               { default: () => "脚本" }
             ),
+          icon: renderIcon("carbon:script"),
           key: `${program.website_id}_Script`,
         },
         {
@@ -110,6 +108,7 @@ const getPrograms = async id => {
               },
               { default: () => "日志" }
             ),
+          icon: renderIcon("icon-park-outline:log"),
           key: `${program.website_id}_Log`,
         },
       ],

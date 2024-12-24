@@ -16,3 +16,9 @@ export const findURLByWebsiteID = async websiteId =>
     method: "get",
     params: { websiteId },
   }).then(result => result.data);
+
+export const deleteProgramByID = async websiteId =>
+  request({
+    url: `/program/delete/${websiteId}`,
+    method: "post",
+  }).then(result => result.data);
