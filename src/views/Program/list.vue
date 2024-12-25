@@ -43,6 +43,7 @@
 import { ref, onMounted } from "vue";
 import { deleteProgramByID, findProgramsByID } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
+import { programStore } from "@/store/programStore";
 import { storeToRefs } from "pinia";
 import { useMessage } from "naive-ui";
 
@@ -65,6 +66,7 @@ const deleteProgram = async websiteId => {
   const data = await deleteProgramByID(websiteId);
   if (!data.code) {
     getCardList(userInfo.value["account_id"]);
+    programStore().getChildPrograms(userInfo.value["account_id"]);
     message.success("项目删除成功");
   } else {
     message.error("项目删除失败");

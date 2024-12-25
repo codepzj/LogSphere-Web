@@ -38,9 +38,11 @@ import { ref, reactive } from "vue";
 import { useMessage } from "naive-ui";
 import { createProgram } from "@/api/programAPI";
 import { userStore } from "@/store/userStore";
+import { programStore } from "@/store/programStore";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
-// Extract user info from the store
+const router = useRouter();
 const { userInfo } = storeToRefs(userStore());
 
 // Message hook from naive-ui
@@ -60,7 +62,9 @@ const handleSubmit = async () => {
   const data = await createProgram(model);
   if (data.code === 0) {
     message.success("创建项目成功");
+    programStore().getChildPrograms(userInfo.value.account_id);
     showModal.value = false;
+    router.push({ name: "Script", params: { websiteId: data.data.website_id } });
   } else {
     message.error("创建项目失败");
   }
