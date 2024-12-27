@@ -9,6 +9,7 @@ import ProgramCreate from "@/views/Program/create.vue";
 import ProgramDetail from "@/views/Program/detail.vue";
 import Log from "@/views/Program/Detail/log.vue";
 import { userStore } from "@/store/userStore";
+import { programStore } from "@/store/programStore";
 
 const routes = [
   {
@@ -105,5 +106,21 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+});
+router.beforeEach((to, from, next) => {
+  const store = programStore();
+  console.log(to.name);
+  switch (to.name) {
+    case "Analyse":
+    case "Script":
+    case "Log":
+      console.log(to.name + `_${to.params.websiteId}`);
+      store.setSelectedKey(to.name + `_${to.params.websiteId}`);
+      break;
+    default:
+      console.log(to.name);
+      store.setSelectedKey(to.name);
+  }
+  next();
 });
 export default router;

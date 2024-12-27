@@ -62,7 +62,7 @@ const handleSubmit = async () => {
   const data = await createProgram(model);
   if (data.code === 0) {
     message.success("创建项目成功");
-    programStore().getChildPrograms(userInfo.value.account_id);
+    await programStore().getChildPrograms(userInfo.value.account_id);
     showModal.value = false;
     router.push({ name: "Script", params: { websiteId: data.data.website_id } });
   } else {

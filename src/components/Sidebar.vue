@@ -1,5 +1,11 @@
 <template>
-  <n-menu :options="menuOptions" default-expand-all />
+  <n-menu
+    ref="menuRef"
+    :options="menuOptions"
+    v-model:value="selectedKey"
+    :accordion="true"
+    default-expand-all
+  />
 </template>
 
 <script setup>
@@ -12,12 +18,12 @@ import { storeToRefs } from "pinia";
 
 // 从 Pinia store 获取用户信息
 const { userInfo } = storeToRefs(userStore());
-const { menuOptions } = storeToRefs(programStore());
+const { menuRef, selectedKey, menuOptions } = storeToRefs(programStore());
 
 // 组件挂载后获取数据
-onMounted(() => {
+onMounted(async () => {
   if (userInfo.value?.account_id) {
-    programStore().getChildPrograms(userInfo.value.account_id);
+    await programStore().getChildPrograms(userInfo.value.account_id);
   }
 });
 </script>

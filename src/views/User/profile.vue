@@ -32,6 +32,9 @@ import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 import { useMessage } from "naive-ui";
 import { uploadAvatar, UserEditProfile } from "@/api/userAPI.js";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const store = userStore();
 const { userInfo } = storeToRefs(store);
 const message = useMessage();
@@ -78,6 +81,7 @@ const editProfile = async () => {
   const data = await UserEditProfile(model.value);
   if (!data.code) {
     store.setUserProfile(model.value);
+    router.push({ name: "Home" });
     message.success(data.msg);
   } else {
     message.error(data.msg);

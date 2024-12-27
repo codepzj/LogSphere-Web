@@ -17,8 +17,8 @@
       </n-gi>
       <n-gi span="4">
         <div class="flex justify-end items-center px-4">
-          <div @click="changeTheme" class="mr-4">
-            <Icon icon="proicons:dark-theme" class="size-6" />
+          <div @click="changeTheme" class="mr-4 mt-1">
+            <Icon class="size-6" :icon="theme ? 'mynaui:moon' : 'tabler:sun'" />
           </div>
           <div v-if="Object.keys(userInfo).length">
             <n-dropdown :options="dropdownOptions" @select="handleSelect">
@@ -58,6 +58,11 @@ const dropdownOptions = [
   { label: "用户资料", key: "profile" },
   { label: "退出登录", key: "logout" },
 ];
+
+function renderIcon(name) {
+  return () => h(Icon, { icon: name });
+}
+
 const changeTheme = () => {
   theme.value = theme.value === null ? darkTheme : null;
   console.log(theme.value);
