@@ -12,7 +12,7 @@ export default {
   },
   plugins: [
     replace({
-      __WEBSOCKET_API__: env.VITE_WEBSOCKET_API,
+      __TRACK_API__: env.VITE_TRACK_API,
       delimiters: ["", ""],
       preventAssignment: true,
     }),
