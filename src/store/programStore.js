@@ -45,6 +45,16 @@ export const programStore = defineStore("useProgramStore", () => {
     },
     {
       label: () =>
+        h(
+          RouterLink,
+          { to: { name: "System" } },
+          { default: () => "系统占用" }
+        ),
+      key: "System",
+      icon: renderIcon("hugeicons:system-update-02"),
+    },
+    {
+      label: () =>
         h(RouterLink, { to: { name: "Test" } }, { default: () => "测试页面" }),
       key: "Test",
       icon: renderIcon("grommet-icons:test"),

@@ -1,10 +1,3 @@
 <template>
-  <n-avatar round>
-    {{ value }}
-  </n-avatar>
+  <n-skeleton text :repeat="5" />
 </template>
-
-<script setup>
-import { ref } from "vue";
-const value = ref(666);
-</script>

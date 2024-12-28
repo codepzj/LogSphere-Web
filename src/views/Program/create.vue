@@ -64,7 +64,10 @@ const handleSubmit = async () => {
     message.success("创建项目成功");
     await programStore().getChildPrograms(userInfo.value.account_id);
     showModal.value = false;
-    router.push({ name: "Script", params: { websiteId: data.data.website_id } });
+    router.push({
+      name: "Script",
+      params: { websiteId: data.data.website_id },
+    });
   } else {
     message.error("创建项目失败");
   }

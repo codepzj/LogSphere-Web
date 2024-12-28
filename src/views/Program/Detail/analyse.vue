@@ -2,34 +2,26 @@
   <div class="container mx-auto p-4">
     <!-- Overview Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-      <div
-        class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
-      >
+      <n-card>
         <h3 class="text-xl font-semibold mb-3">页面浏览量</h3>
         <p class="text-3xl font-bold text-blue-600">{{ views }}</p>
-      </div>
-      <div
-        class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
-      >
+      </n-card>
+      <n-card>
         <h3 class="text-xl font-semibold mb-3">访客数量</h3>
         <p class="text-3xl font-bold text-green-600">{{ visitors }}</p>
-      </div>
-      <div
-        class="p-6 shadow-lg rounded-lg hover:shadow-2xl transition duration-300 ease-in-out"
-      >
-        <h3 class="text-xl font-semibold mb-3">
-          平均页面停留时长
-        </h3>
+      </n-card>
+      <n-card>
+        <h3 class="text-xl font-semibold mb-3">平均页面停留时长</h3>
         <p class="text-3xl font-bold text-yellow-600">
           {{ pageDuration.toFixed(2) }} 秒
         </p>
-      </div>
+      </n-card>
     </div>
 
     <!-- Collapsible Section for Location Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md border-solid border-b-2"
         @click="toggleCollapse('location')"
       >
         <span class="text-lg font-semibold">地理位置分布</span>
@@ -49,23 +41,22 @@
           ></path>
         </svg>
       </div>
-      <div
-        v-show="activeCollapse === 'location'"
-        class="mt-4 p-4 rounded-md shadow-sm"
-      >
+      <div v-show="activeCollapse === 'location'" class="mt-4 p-4 rounded-md">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div
+          <n-card
             v-for="(location, country) in sortedLocationInfo"
             :key="country"
-            class="p-3 rounded-md shadow-md"
+            class="p-3 rounded-md"
           >
             <p class="font-medium">{{ location.country }}:</p>
             <p class="text-sm">
-              {{ location.count }} 次浏览 ({{
-                (location.ratio * 100).toFixed(2)
-              }}%)
+              <n-ellipsis style="max-width: 240px">
+                {{ location.count }} 次浏览 ({{
+                  (location.ratio * 100).toFixed(2)
+                }}%)
+              </n-ellipsis>
             </p>
-          </div>
+          </n-card>
         </div>
       </div>
     </div>
@@ -73,7 +64,7 @@
     <!-- Collapsible Section for Referrer Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md border-solid border-b-2"
         @click="toggleCollapse('referrer')"
       >
         <span class="text-lg font-semibold">来源信息</span>
@@ -93,25 +84,24 @@
           ></path>
         </svg>
       </div>
-      <div
-        v-show="activeCollapse === 'referrer'"
-        class="mt-4 p-4 rounded-md shadow-sm"
-      >
+      <div v-show="activeCollapse === 'referrer'" class="mt-4 p-4 rounded-md">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div
+          <n-card
             v-for="(referrer, index) in sortedReferrerInfo"
             :key="index"
-            class="p-3 rounded-md shadow-md"
+            class="p-3 rounded-md"
           >
             <p class="font-medium">
-              {{ referrer.Domain || "直接访问" }}:
+              <n-ellipsis class="w-20 sm:w-60 md:w-96">
+                {{ referrer.Domain || "直接访问" }}:
+              </n-ellipsis>
             </p>
             <p class="text-sm">
               {{ referrer.Count }} 次浏览 ({{
                 (referrer.Ratio * 100).toFixed(2)
               }}%)
             </p>
-          </div>
+          </n-card>
         </div>
       </div>
     </div>
@@ -119,7 +109,7 @@
     <!-- Collapsible Section for Page Access Info -->
     <div class="mb-6">
       <div
-        class="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-lg cursor-pointer"
+        class="flex items-center justify-between p-4 rounded-md border-solid border-b-2"
         @click="toggleCollapse('page')"
       >
         <span class="text-lg font-semibold">页面访问情况</span>
@@ -139,15 +129,12 @@
           ></path>
         </svg>
       </div>
-      <div
-        v-show="activeCollapse === 'page'"
-        class="mt-4 p-6 rounded-md shadow-sm"
-      >
+      <div v-show="activeCollapse === 'page'" class="mt-4 p-6 rounded-md">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div
+          <n-card
             v-for="(page, path) in sortedPageInfo"
             :key="path"
-            class="p-4 rounded-md shadow-md"
+            class="p-4 rounded-md"
           >
             <p class="font-medium">
               <a
@@ -155,13 +142,15 @@
                 target="_blank"
                 class="text-blue-500 hover:underline"
               >
-                {{ decodeURIComponent(websiteURL + path) }}
+                <n-ellipsis style="max-width: 240px">
+                  {{ decodeURIComponent(websiteURL + path) }}
+                </n-ellipsis>
               </a>
             </p>
             <p class="text-sm">
               {{ page.count }} 次浏览 ({{ (page.ratio * 100).toFixed(2) }}%)
             </p>
-          </div>
+          </n-card>
         </div>
       </div>
     </div>

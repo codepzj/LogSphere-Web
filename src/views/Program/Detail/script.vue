@@ -1,36 +1,33 @@
 <template>
   <div class="container mx-auto p-6 max-w-3xl">
     <!-- 说明文本 -->
-    <div class="text-2xl font-semibold text-red-600 mb-4">
+    <div class="text-2xl font-semibold text-red-400 mb-4">
       请插入以下脚本到你的页面中：
     </div>
 
     <!-- 显示 scriptUrl -->
     <div
-      class="p-6 bg-white border-2 border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
+      class="p-6 rounded-lg bg-orange-100 border-solid border-2 border-orange-200 text-black"
       :title="scriptUrl"
     >
       <div class="flex justify-between items-center mb-2">
-        <span class="text-sm text-gray-500">脚本代码</span>
+        <span class="text-lg">脚本代码</span>
         <button
           @click="copyToClipboard"
-          class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          class="px-3 py-1 text-xs bg-white rounded-md"
         >
           复制
         </button>
       </div>
-      <div
-        class="bg-gray-100 border-2 border-gray-300 rounded-md shadow-sm break-words whitespace-pre-wrap text-sm font-mono text-blue-600"
-      >
-        <div>{{ scriptUrl }}</div>
-      </div>
+
+      <div>{{ scriptUrl }}</div>
     </div>
 
     <!-- 当前路由参数 -->
     <div class="mt-8">
-      <p class="text-lg font-medium text-gray-700">当前路由参数：</p>
+      <p class="text-lg font-medium">当前路由参数：</p>
       <pre
-        class="p-4 bg-gray-200 text-sm rounded-md shadow-sm text-gray-800 whitespace-pre-wrap flex items-center"
+        class="p-4 bg-orange-100 border-solid border-2 border-orange-200 text-sm rounded-md text-black flex items-center"
       >
         <code>{{ `websiteId: ${route.params.websiteId}` }}</code>
       </pre>

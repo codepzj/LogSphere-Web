@@ -5,7 +5,6 @@
       :columns="columns"
       :data="formData"
       :pagination="pagination"
-      class="min-w-full bg-white shadow-md rounded-lg"
     />
   </div>
 </template>

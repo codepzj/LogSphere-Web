@@ -8,6 +8,7 @@ import Program from "@/views/Program/list.vue";
 import ProgramCreate from "@/views/Program/create.vue";
 import ProgramDetail from "@/views/Program/detail.vue";
 import Log from "@/views/Program/Detail/log.vue";
+import System from "@/views/System/index.vue";
 import { userStore } from "@/store/userStore";
 import { programStore } from "@/store/programStore";
 
@@ -74,6 +75,11 @@ const routes = [
     component: Profile,
   },
   {
+    path: "/system",
+    name: "System",
+    component: System,
+  },
+  {
     path: "/test",
     name: "Test",
     component: Test,
@@ -114,11 +120,9 @@ router.beforeEach((to, from, next) => {
     case "Analyse":
     case "Script":
     case "Log":
-      console.log(to.name + `_${to.params.websiteId}`);
       store.setSelectedKey(to.name + `_${to.params.websiteId}`);
       break;
     default:
-      console.log(to.name);
       store.setSelectedKey(to.name);
   }
   next();

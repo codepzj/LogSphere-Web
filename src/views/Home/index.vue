@@ -6,24 +6,19 @@
       本项目使用了以下技术栈，确保了高效、灵活的开发和部署：
     </p>
     <div class="flex flex-wrap gap-4 mb-6">
-      <n-button
-        class="px-3 py-1 rounded-full text-sm font-medium"
+      <n-button class="px-3 py-1 rounded-full text-sm font-medium"
         >Vue</n-button
       >
-      <n-button
-        class="px-3 py-1 rounded-full text-sm font-medium"
+      <n-button class="px-3 py-1 rounded-full text-sm font-medium"
         >Gin</n-button
       >
-      <n-button
-        class="px-3 py-1 rounded-full text-sm font-medium"
-        >WebSocket</n-button
+      <n-button class="px-3 py-1 rounded-full text-sm font-medium"
+        >Mysql</n-button
       >
-      <n-button
-        class="px-3 py-1 rounded-full text-sm font-medium"
+      <n-button class="px-3 py-1 rounded-full text-sm font-medium"
         >Nginx</n-button
       >
-      <n-button
-        class="px-3 py-1 rounded-full text-sm font-medium"
+      <n-button class="px-3 py-1 rounded-full text-sm font-medium"
         >Docker</n-button
       >
     </div>
