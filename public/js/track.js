@@ -59,7 +59,7 @@
       type: "pageview",
       visitorId: visitorId,
       url: cleanUrl(href),
-      referrer: referrer.startsWith(origin) ? "直接访问" : referrer,
+      referrer: referrer.startsWith(origin) ? "" : referrer,
       language: language,
       screen: `${width}x${height}`,
       userAgent: userAgent,
