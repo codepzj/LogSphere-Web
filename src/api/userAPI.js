@@ -34,3 +34,6 @@ export const uploadAvatar = data =>
     headers: { "Content-Type": "multipart/form-data" },
     data,
   }).then(result => result.data);
+
+export const getAllUser = () =>
+  request({ method: "get", url: "/user/all" }).then(result => result.data);

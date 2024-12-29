@@ -9,6 +9,7 @@ import ProgramCreate from "@/views/Program/create.vue";
 import ProgramDetail from "@/views/Program/detail.vue";
 import Log from "@/views/Program/Detail/log.vue";
 import System from "@/views/System/index.vue";
+import UserManage from "@/views/User/manage.vue";
 import { userStore } from "@/store/userStore";
 import { programStore } from "@/store/programStore";
 
@@ -73,6 +74,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile,
+  },
+  {
+    path: "/userManage",
+    name: "UserManage",
+    component: UserManage,
   },
   {
     path: "/system",

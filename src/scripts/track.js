@@ -53,13 +53,13 @@
   function trackPageView() {
     lastPageUrl = location.href;
     localStorage.setItem("pageLoadTime", Date.now());
-    const { width, height, language, userAgent, href, referrer } =
+    const { width, height, language, userAgent, href, origin, referrer } =
       updatePageInfo();
     const payload = {
       type: "pageview",
       visitorId: visitorId,
       url: cleanUrl(href),
-      referrer: referrer,
+      referrer: referrer.startsWith(origin) ? "直接访问" : referrer,
       language: language,
       screen: `${width}x${height}`,
       userAgent: userAgent,
@@ -84,18 +84,19 @@
     const pageLoadTime = localStorage.getItem("pageLoadTime");
     if (pageLoadTime === null) {
       localStorage.setItem("pageLoadTime", Date.now());
-    } else {
-      const stayDuration = Date.now() - pageLoadTime;
-      const payload = {
-        type: "pageduration",
-        visitorId: visitorId,
-        url: cleanUrl(lastPageUrl),
-        stayDuration: stayDuration,
-        timestamp: Date.now(),
-        website_id: websiteId,
-      };
-      sendToServer(payload);
+      return;
     }
+    const stayDuration = Date.now() - pageLoadTime;
+    if (stayDuration > 600000) return;
+    const payload = {
+      type: "pageduration",
+      visitorId: visitorId,
+      url: cleanUrl(lastPageUrl),
+      stayDuration: stayDuration,
+      timestamp: Date.now(),
+      website_id: websiteId,
+    };
+    sendToServer(payload);
   }
 
   function sendPageBounce() {

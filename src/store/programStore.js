@@ -47,6 +47,16 @@ export const programStore = defineStore("useProgramStore", () => {
       label: () =>
         h(
           RouterLink,
+          { to: { name: "UserManage" } },
+          { default: () => "用户管理" }
+        ),
+      key: "UserManage",
+      icon: renderIcon("bx:user"),
+    },
+    {
+      label: () =>
+        h(
+          RouterLink,
           { to: { name: "System" } },
           { default: () => "系统占用" }
         ),
